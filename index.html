@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Socket Client</title>
+    </head>
+    <body>
+
+        <h1>Socket Client</h1>
+        <p>Please check the console in developer tools</p>
+
+        <button onclick="connectSockets()">Connect Socket</button>
+        <br />
+        <br />
+        <button onclick="sendQuestion()">Send Question</button>
+        <br />
+        <br />
+        <button onclick="closeSockets()">Close Sockets</button>
+        
+        <script type="module">
+            import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
+
+            let socket1;
+            let socket2;
+            let socket3;
+
+            window.connectSockets = () => {
+                socket1 = io("http://localhost:3000/socket", {
+                    transports: ["websocket"]
+                });
+                socket2 = io("http://localhost:3001/socket", {
+                    transports: ["websocket"]
+                });
+                socket3 = io("http://localhost:3002/socket", {
+                    transports: ["websocket"]
+                });
+
+                socket1.on("question", (data) => {
+                    console.log("Socket1 question: ", data);
+                });
+                
+                socket2.on("question", (data) => {
+                    console.log("Socket2 question: ", data);
+                });
+                
+                socket3.on("question", (data) => {
+                    console.log("Socket3 question: ", data);
+                });
+            }
+
+            window.closeSockets = () => {
+                socket1?.close();
+                socket2?.close();
+                socket3?.close();
+            }
+
+            window.sendQuestion = () => {
+                socket1?.emit("question", "How are you?");
+            }
+        </script> 
+    </body>
+</html>
