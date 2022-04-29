@@ -54,6 +54,7 @@
             }
 
             window.sendQuestion = () => {
+                alert("Please connect socket!");
                 socket1?.emit("question", "How are you?");
             }
         </script> 
